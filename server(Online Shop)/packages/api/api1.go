@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"server/packages/api/middlewares"
 	"server/packages/storage/memDB"
 	"strconv"
 
@@ -35,7 +36,7 @@ func (api *API) endpoints() {
 	api.r.HandleFunc("/orders", api.newOrderHandler).Methods(http.MethodPost)
 	api.r.HandleFunc("/orders/{id}", api.updateOrderHandler).Methods(http.MethodPatch)
 	api.r.HandleFunc("/orders/{id}", api.deleteOrderHandler).Methods(http.MethodDelete)
-	api.r.Use()
+	api.r.Use(mux.MiddlewareFunc(middlewares.MddlwrJsonTypeHeader))
 }
 
 // ordersHandler возвращает все заказы.
